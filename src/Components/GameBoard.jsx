@@ -29,7 +29,9 @@ export default function GameBoard({ onSelectSquare, turns }) {
                         row.map(
                             (playerSymbol, colIndex) =>
                                 <li key={'element' + colIndex} >
-                                    <button onClick={() => onSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button>
+                                    <button
+                                        disabled={playerSymbol == 'X' || playerSymbol == 'O'}
+                                        onClick={() => onSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button>
                                 </li>
                         )
                     }
