@@ -51,6 +51,15 @@ function App() {
       }
     if (gameTurns.length == 9 && gameTurns[8].player != null) { isDraw = true };
   }
+  function handleRestart() {
+    initialGameBoard = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null],
+    ];
+    winner = null;
+    setGameTurns(prevTurns => []);
+  }
   return (
     <main>
       <div id="game-container">
@@ -58,7 +67,7 @@ function App() {
           <Player className={deriveActivePlayer(gameTurns) == 'X' ? 'active' : ''} initialName="Player 1" symbol="X" />
           <Player className={deriveActivePlayer(gameTurns) == 'O' ? 'active' : ''} initialName="Player 2" symbol="O" />
         </ol>
-        {(winner || isDraw) && <GameOver isDraw={isDraw} winner={winner} />}
+        {(winner || isDraw) && <GameOver isDraw={isDraw} winner={winner} onRestart={handleRestart} />}
         <GameBoard onSelectSquare={handleSelectSquare} gameBoard={gameBoard} />
       </div>
       <Log gameTurns={gameTurns} />
@@ -74,7 +83,9 @@ function deriveActivePlayer(gameTurns) {
   return currentPlayer;
 }
 
-const initialGameBoard = [
+
+
+let initialGameBoard = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
