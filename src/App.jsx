@@ -9,6 +9,10 @@ import { WINNING_COMPINATIONS } from "./WINNING_COMBINATIONS.js";
 function App() {
   // const [activePlayer, setActivePlayer] = useState('X');
   const [gameTurns, setGameTurns] = useState([]);
+  const [players, setPlayers] = useState({
+    X: 'Player 1',
+    O: 'Player 2'
+  })
   let winner = null;
   let isDraw = false;
   function handleSelectSquare(rowIndex, colIndex) {
@@ -60,12 +64,25 @@ function App() {
     winner = null;
     setGameTurns(prevTurns => []);
   }
+
+  function handlePlayerNameChange(symbol, newName) {
+    setPlayers((prevPlayers) => {
+      return pr({
+        ...prevPlayers,
+        [symbol]: newName,
+      })
+    });
+  }
   return (
     <main>
       <div id="game-container">
         <ol id="players" class="highlight-player">
-          <Player className={deriveActivePlayer(gameTurns) == 'X' ? 'active' : ''} initialName="Player 1" symbol="X" />
-          <Player className={deriveActivePlayer(gameTurns) == 'O' ? 'active' : ''} initialName="Player 2" symbol="O" />
+          <Player
+            onChangeName={handlePlayerNameChange}
+            className={deriveActivePlayer(gameTurns) == 'X' ? 'active' : ''} initialName="Player 1" symbol="X" />
+          <Player
+            onChangeName={handlePlayerNameChange}
+            className={deriveActivePlayer(gameTurns) == 'O' ? 'active' : ''} initialName="Player 2" symbol="O" />
         </ol>
         {(winner || isDraw) && <GameOver isDraw={isDraw} winner={winner} onRestart={handleRestart} />}
         <GameBoard onSelectSquare={handleSelectSquare} gameBoard={gameBoard} />
